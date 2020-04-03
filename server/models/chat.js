@@ -7,7 +7,7 @@ var chatSchema = new Schema({
     type: String,
     require: true
   },
-  chat: {
+  message: {
     type: String,
     require: true
   }

@@ -10,9 +10,9 @@ router.get('/', (req, res) => {
   });
 });
 
-/* POST chat. */
+/* POST message. */
 router.post('/', (req, res) => {
-  Chat.create({id: req.body.id, name: req.body.name, chat: req.body.chat}, (err, chat) => {
+  Chat.create({id: req.body.id, name: req.body.name, message: req.body.message}, (err, chat) => {
     if (err) return res.status(500).json({err});
     res.status(200).json(chat);
   });
@@ -20,7 +20,7 @@ router.post('/', (req, res) => {
 
 /* PUT chat. */
 router.put('/:id', (req, res) => {
-  Chat.findByIdAndUpdate(req.params.id, {id: req.body.id, name: req.body.name, chat: req.body.chat}, {new: true}, (err, chat) => {
+  Chat.findByIdAndUpdate(req.params.id, {id: req.body.id, name: req.body.name, message: req.body.message}, {new: true}, (err, chat) => {
     if (err) return res.status(500).json({err});
     res.status(200).json(chat);
   });
