@@ -7,6 +7,10 @@ export default function ChatList (props) {
   );
 
   return (
-    <ul>{listItems}</ul>
+    <div class="col-12 px-0">
+      <div class="px-4 py-5 chat-box bg-white">
+        {listItems}
+      </div>
+    </div>
   );
 }
