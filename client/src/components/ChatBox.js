@@ -5,15 +5,7 @@ import ChatForm from "./ChatForm";
 export default class ChatBox extends Component {
   constructor(props) {
     super(props);
-    this.state = {
-      data: [
-        {
-          name: "Yasa Mulky Al Afgani",
-          message:
-            "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore."
-        }
-      ]
-    };
+    this.state = { data: [] };
 
     this.addChat = this.addChat.bind(this);
     this.deleteChat = this.deleteChat.bind(this);
@@ -21,7 +13,7 @@ export default class ChatBox extends Component {
 
   addChat(chats) {
     this.setState(state => ({
-      data: [...(state.data + chats)]
+      data: [...state.data, chats]
     }));
   }
 
@@ -30,19 +22,17 @@ export default class ChatBox extends Component {
   render() {
     return (
       <div className="container py-4 px-4">
-        <h1 className="display-4 text-center mb-4">React Chat</h1>
-        <div className="rounded-lg overflow-hidden shadow-sm">
-          <ChatList data={this.state.data} />
-          <div>
-            <ChatForm addChat={this.addChat} />
-          </div>
-        </div>
-        <p class="lead py-4 text-center small text-muted">
+        <h1 className="display-4 text-center text-white mb-0">React Chat</h1>
+        <p class="lead pb-4 text-center small text-white">
           Made by{" "}
-          <a href="https://www.github.com/mulkyasa/" className="text-muted">
+          <a href="https://www.github.com/mulkyasa/" className="text-white">
             Yasa Mulky Al Afgani
           </a>
         </p>
+        <div className="rounded-lg overflow-hidden shadow">
+          <ChatList data={this.state.data} />
+          <ChatForm addChat={this.addChat} />
+        </div>
       </div>
     );
   }

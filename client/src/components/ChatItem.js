@@ -1,4 +1,5 @@
 import React from "react";
+import ReactMarkdown from "react-markdown";
 
 export default function ChatItem(props) {
   return (
@@ -10,13 +11,11 @@ export default function ChatItem(props) {
         class="rounded-circle"
       ></img>
       <div className="media-body ml-3">
-        <div class="bg-light rounded py-2 px-3 mb-2">
+        <div class="bg-light rounded py-2 justify-content-end px-3 mb-2">
           <p className="text-small mb-0 text-muted">
             {props.chats.name}
           </p>
-          <p class="mb-0 text-small">
-            {props.chats.message}
-          </p>
+          <ReactMarkdown source={props.chats.message} className="mb-0 text-small" />
         </div>
       </div>
     </div>
