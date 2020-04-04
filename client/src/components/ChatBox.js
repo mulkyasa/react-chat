@@ -30,20 +30,26 @@ export default class ChatBox extends Component {
     })
   }
 
-  addChat(chats) {
-    this.setState(state => ({
-      data: [...state.data, chats]
+  addChat(chatData) {
+    this.setState((state) => ({
+      data: [...state.data, chatData]
     }));
+    request.post(`chats`, chatData)
+    .then((response) => {
+      console.log(response);
+    })
+    .catch((err) => {
+      alert(err)
+    })
   }
 
   deleteChat(id) {
-    this.setState(state => ({
+    this.setState((state) => ({
       data: state.data.filter(item => item.id != id)
     }));
     request.delete(`chats/${id}`)
     .then((response) => {
-      console.log(response);
-      this.setState({data: response.data})
+      console.log('Completed!');
     })
     .catch((err) => {
       alert(err)
