@@ -20,7 +20,7 @@ router.post('/', (req, res) => {
 
 /* PUT chat. */
 router.put('/:id', (req, res) => {
-  Chat.findByIdAndUpdate(req.params.id, {id: req.body.id, name: req.body.name, message: req.body.message}, {new: true}, (err, chat) => {
+  Chat.findOneAndUpdate({id: parseInt(req.params.id)}, {name: req.body.name, message: req.body.message}, {new: true}, (err, chat) => {
     if (err) return res.status(500).json({err});
     res.status(200).json(chat);
   });
@@ -28,7 +28,7 @@ router.put('/:id', (req, res) => {
 
 /* DELETE chat. */
 router.delete('/:id', (req, res) => {
-  Chat.findByIdAndDelete(req.params.id, (err, chat) => {
+  Chat.findOneAndRemove({id: parseInt(req.params.id)}, (err, chat) => {
     if (err) return res.status(500).json({err});
     res.status(200).json(chat);
   });

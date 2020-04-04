@@ -11,11 +11,17 @@ export default function ChatItem(props) {
         class="rounded-circle"
       ></img>
       <div className="media-body ml-3">
-        <div class="bg-light rounded py-2 justify-content-end px-3 mb-2">
-          <p className="text-small mb-0 text-muted">
-            {props.chats.name}
-          </p>
-          <ReactMarkdown source={props.chats.message} className="mb-0 text-small" />
+        <div class="bg-light rounded py-2 px-3 mb-2">
+          <div className="d-flex align-items-center justify-content-between mb-1">
+            <p className="text-small mb-0 text-muted">
+              {props.chats.name}
+            </p>
+            <button type="submit" value="Submit" onClick={props.deleteChat} className="btn btn-link py-0 px-0">
+              <i class="text-dark fa fa-trash-o"></i>
+            </button>
+          </div>
+          <p className="mb-0 text-small">{props.chats.message}</p>
+          {/* <ReactMarkdown source={props.chats.message} className="mb-0 text-small" /> */}
         </div>
       </div>
     </div>

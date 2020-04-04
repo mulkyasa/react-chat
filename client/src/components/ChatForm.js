@@ -20,6 +20,7 @@ export default class ChatForm extends Component {
       name: this.state.name,
       message: this.state.message,
     });
+    this.setState({ message: "" })
     event.preventDefault();
   }
 
@@ -27,7 +28,7 @@ export default class ChatForm extends Component {
     return (
       <form onSubmit={this.handleSubmit} className="bg-light">
         <div className="input-group">
-          <div className="col-3 border-right">
+          <div className="w-25 border-right">
             <input
               type="text"
               name="name"
@@ -35,6 +36,7 @@ export default class ChatForm extends Component {
               onChange={this.handleChange}
               placeholder="Insert your name"
               className="form-control rounded-0 border-0 py-4 bg-light"
+              required
             />
           </div>
           <input
@@ -44,6 +46,8 @@ export default class ChatForm extends Component {
             onChange={this.handleChange}
             placeholder="Type a message"
             className="form-control rounded-0 border-0 py-4 bg-light"
+            autoComplete="off"
+            required
           />
           <div className="input-group-append">
             <button type="submit" value="Submit" className="btn btn-link">
