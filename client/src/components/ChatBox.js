@@ -45,7 +45,7 @@ export default class ChatBox extends Component {
 
   deleteChat(id) {
     this.setState((state) => ({
-      data: state.data.filter(item => item.id != id)
+      data: state.data.filter(item => item.id !== id)
     }));
     request.delete(`chats/${id}`)
     .then((response) => {
