@@ -20,8 +20,8 @@ export default function ChatItem(props) {
               <i className="text-dark fa fa-trash-o"></i>
             </button>
           </div>
-          <p className="mb-0 text-small">{props.chats.message}</p>
-          {/* <ReactMarkdown source={props.chats.message} className="mb-0 text-small" /> */}
+          {/* <p className="mb-0 text-small">{props.chats.message}</p> */}
+          <ReactMarkdown source={props.chats.message} className="mb-0 text-small" />
         </div>
       </div>
     </div>

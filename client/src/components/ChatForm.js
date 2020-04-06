@@ -24,7 +24,6 @@ export default class ChatForm extends Component {
       sent: true
     });
     this.setState({ message: "" })
-    
   }
 
   render() {

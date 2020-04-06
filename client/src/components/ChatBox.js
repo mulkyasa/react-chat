@@ -30,19 +30,18 @@ export default class ChatBox extends Component {
   }
 
   loadChat = () => {
-    return axios
-      .get(API_URL)
-      .then((response) => {
-        console.log(response)
-          let chatData = response.data.map((chats) => {
-            return { ...chats, sent: true };
-          });
-          this.setState({ data: chatData });
-        
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    return axios.get(API_URL)
+    .then((response) => {
+      console.log(response)
+        let chatData = response.data.map((chats) => {
+          return { ...chats, sent: true };
+        });
+        this.setState({ data: chatData });
+      
+    })
+    .catch((err) => {
+      console.log(err);
+    });
   };
 
   addChat = (chatData) => {
@@ -51,32 +50,27 @@ export default class ChatBox extends Component {
       data: [...state.data, chatData],
     }));
 
-    axios
-      .post(API_URL, chatData)
-
-      .then((response) => {
-        
-        socket.emit("add chat");
-      })
-
-      .catch((err) => {
-        this.setState((state) => {
-          data: state.data.map((data) => {
-            if (data.id === chatData.id) chatData.sent = false;
-            return chatData;
-          });
+    axios.post(API_URL, chatData)
+    .then(() => {
+      socket.emit("add chat");
+    })
+    .catch(() => {
+      this.setState((state) => {
+        state.data.map((data) => {
+          if (data.id === chatData.id) chatData.sent = false;
+          return chatData;
         });
       });
+    });
   };
 
   deleteChat = (id) => {
     this.setState((state) => ({
       data: state.data.filter((item) => item.id !== id),
     }));
-    return axios
-      .delete(API_URL + `/${id}`)
-      .then((response) => {
-        console.log("Completed!");
+    axios.delete(API_URL + `/${id}`)
+      .then(() => {
+        socket.emit('delete chat', id)
       })
       .catch((err) => {
         alert(err);

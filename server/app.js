@@ -50,13 +50,13 @@ app.use("/api/chats", chatsRouter);
 
 io.on("connection", function (socket) {
   console.log('socket connected')
-  socket.on("add chat", (chatData = {}) => {
+  socket.on("add chat", () => {
     socket.broadcast.emit("load chat");
   });
 
   socket.on("delete chat", (id) => {
     console.log(id)
-    // socket.broadcast.emit("delete chat", id);
+    socket.broadcast.emit("delete chat", id);
   });
 });
 
