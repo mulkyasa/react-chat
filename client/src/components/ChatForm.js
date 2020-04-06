@@ -14,14 +14,17 @@ export default class ChatForm extends Component {
   }
 
   handleSubmit(event) {
+    event.preventDefault();
+    console.log(this.state)
     const id = Date.now();
     this.props.addChat({
       id,
       name: this.state.name,
       message: this.state.message,
+      sent: true
     });
     this.setState({ message: "" })
-    event.preventDefault();
+    
   }
 
   render() {
@@ -51,7 +54,7 @@ export default class ChatForm extends Component {
           />
           <div className="input-group-append">
             <button type="submit" value="Submit" className="btn btn-link">
-              <i class="fa fa-paper-plane"></i>
+              <i className="fa fa-paper-plane"></i>
             </button>
           </div>
         </div>

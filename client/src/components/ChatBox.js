@@ -1,66 +1,93 @@
 import React, { Component } from "react";
+import axios from "axios";
 import ChatList from "./ChatList";
 import ChatForm from "./ChatForm";
+import io from "socket.io-client";
 
-import axios from 'axios';
-
-const request = axios.create({
-  baseURL: 'http://localhost:3000/api/',
-  timeout: 1000,
-  headers: {'X-Custom-Header': 'foobar'}
-});
+const socket = io("http://localhost:3000");
+const API_URL = "http://localhost:3000/api/chats";
 
 export default class ChatBox extends Component {
   constructor(props) {
     super(props);
     this.state = { data: [] };
-
-    this.addChat = this.addChat.bind(this);
-    this.deleteChat = this.deleteChat.bind(this);
   }
 
   componentDidMount() {
-    request.get('chats')
-    .then((response) => {
-      console.log(response);
-      this.setState({data: response.data})
-    })
-    .catch((err) => {
-      alert(err)
-    })
+    this.loadChat();
+
+    socket.emit("delete chat", "dikirim");
+
+    socket.on("load chat", (newData) => {
+      this.loadChat();
+    });
+
+    socket.on("delete chat", (id) => {
+      this.setState((state) => ({
+        data: state.data.filter((chatData) => chatData.id !== id),
+      }));
+    });
   }
 
-  addChat(chatData) {
-    this.setState((state) => ({
-      data: [...state.data, chatData]
-    }));
-    request.post(`chats`, chatData)
-    .then((response) => {
-      console.log(response);
-    })
-    .catch((err) => {
-      alert(err)
-    })
-  }
+  loadChat = () => {
+    return axios
+      .get(API_URL)
+      .then((response) => {
+        console.log(response)
+          let chatData = response.data.map((chats) => {
+            return { ...chats, sent: true };
+          });
+          this.setState({ data: chatData });
+        
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
 
-  deleteChat(id) {
+  addChat = (chatData) => {
+    console.log(chatData);
     this.setState((state) => ({
-      data: state.data.filter(item => item.id !== id)
+      data: [...state.data, chatData],
     }));
-    request.delete(`chats/${id}`)
-    .then((response) => {
-      console.log('Completed!');
-    })
-    .catch((err) => {
-      alert(err)
-    })
-  }
+
+    axios
+      .post(API_URL, chatData)
+
+      .then((response) => {
+        
+        socket.emit("add chat");
+      })
+
+      .catch((err) => {
+        this.setState((state) => {
+          data: state.data.map((data) => {
+            if (data.id === chatData.id) chatData.sent = false;
+            return chatData;
+          });
+        });
+      });
+  };
+
+  deleteChat = (id) => {
+    this.setState((state) => ({
+      data: state.data.filter((item) => item.id !== id),
+    }));
+    return axios
+      .delete(API_URL + `/${id}`)
+      .then((response) => {
+        console.log("Completed!");
+      })
+      .catch((err) => {
+        alert(err);
+      });
+  };
 
   render() {
     return (
       <div className="container py-4 px-4">
         <h1 className="display-4 text-center text-white mb-0">React Chat</h1>
-        <p className="lead pb-4 text-center small text-white">
+        <p className="lead pb-3 text-center small text-white">
           Made by{" "}
           <a href="https://www.github.com/mulkyasa/" className="text-white">
             Yasa Mulky Al Afgani
