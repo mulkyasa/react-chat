@@ -20,7 +20,7 @@ export default class ChatForm extends Component {
       id,
       name: this.state.name,
       message: this.state.message,
-      sent: true
+      sent: false
     });
     this.setState({ message: "" })
   }

@@ -28,13 +28,12 @@ export default class ChatBox extends Component {
   }
 
   loadChat = () => {
-    return axios.get(API_URL)
+    axios.get(API_URL)
     .then((response) => {
-        let chatData = response.data.map((chats) => {
-          return { ...chats, sent: true };
-        });
-        this.setState({ data: chatData });
-      
+      let chatData = response.data.map((chats) => {
+        return { ...chats, sent: true };
+      });
+      this.setState({ data: chatData });
     })
     .catch((err) => {
       console.log(err);
@@ -51,11 +50,12 @@ export default class ChatBox extends Component {
       socket.emit("add chat");
     })
     .catch(() => {
-      console.log(chatData, 'sent must be false');
       this.setState((state) => {
-        state.data.map((data) => {
-          if (data.id === chatData.id) chatData.sent = false;
-          return chatData;
+        state.data.map((item) => {
+          if (item.id === chatData.id) {
+            item.sent = false;
+          }
+          return item;
         });
       });
     });
@@ -75,26 +75,24 @@ export default class ChatBox extends Component {
   };
 
   resendChat = (chatData) => {
-    console.log(chatData, 'resend');
-    this.setState((state) => ({
-      data: [...state.data, chatData],
-    }));
-
     axios.post(API_URL, chatData)
     .then(() => {
       this.setState((state) => {
-        state.data.map((data) => {
-          if (data.id === chatData.id) chatData.sent = true;
-          return chatData;
+        state.data.map((item) => {
+          if (item.id === chatData.id) {
+            item.sent = true;
+          }
+          return item;
         });
       });
-      // socket.emit("add chat");
     })
     .catch(() => {
       this.setState((state) => {
-        state.data.map((data) => {
-          if (data.id === chatData.id) chatData.sent = false;
-          return chatData;
+        state.data.map((item) => {
+          if (item.id === chatData.id) {
+            item.sent = false;
+          }
+          return item;
         });
       });
     });

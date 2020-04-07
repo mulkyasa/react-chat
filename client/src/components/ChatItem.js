@@ -17,18 +17,13 @@ export default function ChatItem(props) {
             <button
               type="submit"
               value="Submit"
-              onClick={props.chats.sent ? props.deleteChat : props.resendChat}
+              onClick={props.chats.sent ? props.delete : props.resend}
               className="btn btn-link py-0 px-0"
             >
-            {console.log(props.chats.sent, 'sent must be false')}
-              {props.chats.sent ? (
-                <i className="text-dark fa fa-trash-o"></i>
-              ) : (
-                'reload'
-              )}
+              {console.log(props.chats.sent, "sent must be false")}
+              {props.chats.sent ? <i className="text-dark fa fa-trash-o"></i> : <i className="text-dark fa fa-repeat"></i>}
             </button>
           </div>
-          {/* <p className="mb-0 text-small">{props.chats.message}</p> */}
           <ReactMarkdown
             source={props.chats.message}
             className="mb-0 text-small"

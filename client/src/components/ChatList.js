@@ -2,12 +2,13 @@ import React from "react";
 import ChatItem from "./ChatItem";
 
 export default function ChatList(props) {
+  console.log(props.data, 'absd')
   const listItems = props.data.map((item, index) => (
     <ChatItem
       key={index}
       chats={item}
-      deleteChat={() => props.deleteChat(item.id)}
-      resendChat={()=> props.resendChat(item)}
+      delete={() => props.deleteChat(item.id)}
+      resend={()=> props.resendChat(item)}
     />
   ));
 
