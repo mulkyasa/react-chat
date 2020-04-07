@@ -15,7 +15,6 @@ export default class ChatForm extends Component {
 
   handleSubmit(event) {
     event.preventDefault();
-    console.log(this.state)
     const id = Date.now();
     this.props.addChat({
       id,
