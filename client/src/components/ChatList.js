@@ -2,8 +2,8 @@ import React from "react";
 import ChatItem from "./ChatItem";
 
 export default function ChatList(props) {
-  console.log(props.data, 'absd')
   const listItems = props.data.map((item, index) => (
+    console.log(item.sent, "chatlist"),
     <ChatItem
       key={index}
       chats={item}

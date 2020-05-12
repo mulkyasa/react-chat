@@ -24,8 +24,6 @@ var io = require("socket.io")(server);
 var indexRouter = require("./routes/index");
 var chatsRouter = require("./routes/chats");
 
-
-
 /**
  * Get port from environment and store in Express.
  */

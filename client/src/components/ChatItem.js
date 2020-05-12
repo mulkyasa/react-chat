@@ -2,6 +2,7 @@ import React from "react";
 import ReactMarkdown from "react-markdown";
 
 export default function ChatItem(props) {
+  console.log("chatitem", props.chats.sent)
   return (
     <div className="w-75 media mb-3">
       <img
@@ -20,7 +21,6 @@ export default function ChatItem(props) {
               onClick={props.chats.sent ? props.delete : props.resend}
               className="btn btn-link py-0 px-0"
             >
-              {console.log(props.chats.sent, "sent must be false")}
               {props.chats.sent ? <i className="text-dark fa fa-trash-o"></i> : <i className="text-dark fa fa-repeat"></i>}
             </button>
           </div>

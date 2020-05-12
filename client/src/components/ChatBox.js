@@ -16,8 +16,8 @@ export default class ChatBox extends Component {
   componentDidMount() {
     this.loadChat();
 
-    socket.on("load chat", () => {
-      this.loadChat();
+    socket.on("load chat", (newData) => {
+      this.setState((state) => ({ data: [...state.data, newData] }));
     });
 
     socket.on("delete chat", (id) => {
@@ -42,7 +42,7 @@ export default class ChatBox extends Component {
 
   addChat = (chatData) => {
     this.setState((state) => ({
-      data: [...state.data, chatData],
+      data: [...state.data, chatData]
     }));
 
     axios.post(API_URL, chatData)
@@ -51,9 +51,12 @@ export default class ChatBox extends Component {
     })
     .catch(() => {
       this.setState((state) => {
+      // console.log(state.data)
         state.data.map((item) => {
           if (item.id === chatData.id) {
+            console.log(item.id, "item", chatData.id, "chatData");
             item.sent = false;
+            console.log("sent", item.sent)
           }
           return item;
         });
@@ -66,37 +69,38 @@ export default class ChatBox extends Component {
       data: state.data.filter((item) => item.id !== id),
     }));
     axios.delete(API_URL + `/${id}`)
-      .then(() => {
-        socket.emit('delete chat', id)
-      })
-      .catch((err) => {
-        alert(err);
-      });
+    .then(() => {
+      socket.emit("delete chat", id);
+    })
+    .catch((err) => {
+      alert(err);
+    });
   };
 
   resendChat = (chatData) => {
     axios.post(API_URL, chatData)
     .then(() => {
-      this.setState((state) => {
-        state.data.map((item) => {
+      this.setState((state) => ({
+        data: state.data.map((item) => {
+          // console.log(item.id, chatData.id)
           if (item.id === chatData.id) {
             item.sent = true;
           }
           return item;
-        });
-      });
+        }),
+      }));
     })
     .catch(() => {
-      this.setState((state) => {
-        state.data.map((item) => {
+      this.setState((state) => ({
+        data: state.data.map((item) => {
           if (item.id === chatData.id) {
             item.sent = false;
           }
           return item;
-        });
-      });
+        }),
+      }));
     });
-  }
+  };
 
   render() {
     return (
@@ -109,7 +113,11 @@ export default class ChatBox extends Component {
           </a>
         </p>
         <div className="rounded-lg overflow-hidden shadow">
-          <ChatList data={this.state.data} deleteChat={this.deleteChat} resendChat={this.resendChat} />
+          <ChatList
+            data={this.state.data}
+            deleteChat={this.deleteChat}
+            resendChat={this.resendChat}
+          />
           <ChatForm addChat={this.addChat} />
         </div>
       </div>

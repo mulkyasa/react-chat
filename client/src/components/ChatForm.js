@@ -14,15 +14,16 @@ export default class ChatForm extends Component {
   }
 
   handleSubmit(event) {
-    event.preventDefault();
     const id = Date.now();
     this.props.addChat({
       id,
       name: this.state.name,
       message: this.state.message,
-      sent: false
+      sent: true
     });
     this.setState({ message: "" })
+    
+    event.preventDefault();
   }
 
   render() {
